@@ -4,17 +4,17 @@ const CyclicDB = require('@cyclic.sh/dynamodb')
 const db = CyclicDB(process.env.CYCLIC_DB)
 let dishes = db.collection('dishes')
 
-router.get('/dishes', async function(req, res, next) {
+router.get('/', async function(req, res, next) {
     let list = await dishes.list();
     res.send(list);
 });
 
-router.get('/dishes/:key', async function(req, res, next) {
+router.get('/:key', async function(req, res, next) {
     let dish = await dishes.get(req.params.key);
     res.send(dish);
 });
 
-router.post('/dishes', async function(req, res, next) {
+router.post('/', async function(req, res, next) {
     const {dishName, country} = req.body;
     await dishes.set(dishName, {
         country: country
@@ -22,7 +22,7 @@ router.post('/dishes', async function(req, res, next) {
     res.end();
 });
 
-router.put('/dishes', async function(req, res, next) {
+router.put('/', async function(req, res, next) {
     const {dishName, country} = req.body;
     await dishes.set(dishName, {
         country: country

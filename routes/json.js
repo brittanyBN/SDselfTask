@@ -1,11 +1,11 @@
 const express = require("express");
 const router = new express.Router();
 const AWS = require("aws-sdk");
-const s3 = new AWS.S3()
+const s3 = new AWS.S3();
 
-router.get('/json', async function(req, res, next) {
+router.get('/', async function(req, res, next) {
     let my_file = await s3.getObject({
-        Bucket: "my-bucket",
+        Bucket: "process.env.BUCKET_NAME",
         Key: "myfile.json"
     }).promise();
     const result = JSON.parse(my_file.Body.toString());
@@ -16,14 +16,14 @@ router.get('/json', async function(req, res, next) {
     }
 });
 
-router.post('/json', async function(req, res, next) {
+router.post('/', async function(req, res, next) {
  const {text} = req.body;
  const textOb = {
         text: text
  }
  await s3.putObject({
         Body: JSON.stringify(textOb),
-        Bucket: "my-bucket",
+        Bucket: "process.env.BUCKET_NAME",
         Key: "myfile.json",
  }).promise();
     res.status(200).send("OK");
