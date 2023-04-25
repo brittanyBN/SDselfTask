@@ -10,9 +10,14 @@ router.get('/', async function(req, res, next) {
     }).promise();
     const result = JSON.parse(my_file.Body)?.text
     if(result == null) {
-        res.status(404).send("Not found");
+        res.json({
+            status: "error",
+        });
     } else {
-        res.status(200).send(result);
+        res.json({
+            status: "success",
+            text: result
+        });
     }
 });
 
@@ -26,7 +31,10 @@ router.post('/', async function(req, res, next) {
         Bucket: process.env.CYCLIC_BUCKET_NAME,
         Key: "text.json",
  }).promise();
-    res.status(200).send("OK");
+    res.json({
+        status: "success",
+        text: text
+    })
 });
 
 module.exports = router;
