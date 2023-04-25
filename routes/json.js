@@ -6,9 +6,9 @@ const s3 = new AWS.S3();
 router.get('/', async function(req, res, next) {
     let my_file = await s3.getObject({
         Bucket: process.env.CYCLIC_BUCKET_NAME,
-        Key: "myfile.json"
+        Key: "text.json"
     }).promise();
-    const result = JSON.parse(my_file.Body)?.text;
+    const result = JSON.parse(my_file.Body)?.text
     if(result == null) {
         res.status(404).send("Not found");
     } else {
@@ -24,7 +24,7 @@ router.post('/', async function(req, res, next) {
  await s3.putObject({
         Body: JSON.stringify(textOb),
         Bucket: process.env.CYCLIC_BUCKET_NAME,
-        Key: "myfile.json",
+        Key: "text.json",
  }).promise();
     res.status(200).send("OK");
 });
